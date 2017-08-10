@@ -1,0 +1,14 @@
+{
+    "appName": {
+        "message": "TabThroughBookMark",
+        "description": "The name of the application"
+    },
+    "appDescription": {
+        "message": "designed to help you revisit bookmarks you may have forgotten about!",
+        "description": "The description of the application"
+    },
+    "appAuthor": {
+        "message": "Yomi",
+        "description": "The author of the application"
+    }
+}

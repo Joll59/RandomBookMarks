@@ -1,0 +1,22 @@
+{
+    "name": "TabThroughBookMark",
+    "author": "Yomi",
+    "description": "a way to curate your bookmarks with minimal effort each tab click open!",
+    "version": "0.0.2",
+    "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",
+    "manifest_version": 2,
+    "icons": {
+        "16": "img/icon-16.png",
+        "128": "img/icon-128.png"
+    },
+    "chrome_url_overrides": {
+        "newtab": "index.html"
+    },
+    "permissions": [
+        "bookmarks"
+    ],
+    "options_ui": {
+        "page": "options.html",
+        "chrome_style": true
+    }
+}
