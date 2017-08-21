@@ -1,7 +1,15 @@
 "use strict";
+$(document).ready(function(){
+    $('div#topContainer [data-toggle="collapse"]').click(function(){
+      // e.preventDefault();
+      let target_element= $(this).attr("data-target");
+      $(`div${target_element}`).toggle();
+      return false;
+    });
+})
 
 let wrapper = document.createElement('div');
-wrapper.setAttribute('class', "container");
+wrapper.setAttribute('class', "row");
 wrapper.setAttribute('id', "container");
 
 const allBookMarks = {};
@@ -19,28 +27,29 @@ const fetchBookmarks = ( bookmarks ) => {
             }else if(bookmark.children){
                 bookmark.parentId ? ((allBookMarks[bookmark.parentId]) || (allBookMarks[bookmark.parentId] = [])) : null;
                 bookMarkFolder.push({title:bookmark.title,id:bookmark.id,parentId:bookmark.parentId || null});
-                createFolderButton(bookmark)
+                bookmark.title ? createFolderButton(bookmark) : null
                 fetchBookmarks(bookmark.children)
             }
         });
-
-    // console.log("check");
-    (document.getElementById('container') || document.body.appendChild(wrapper));
+    document.getElementById('topContainer').appendChild(wrapper);
     createList(allBookMarks)
 }
 
 const createFolderButton= (bookmark)=>{
     let folderButton = document.createElement("button");
-        folderButton.setAttribute('class', 'btn btn-outline-primary');
+    wrapper.appendChild(folderButton);
+        folderButton.setAttribute('class', 'btn btn-lg btn-outline-primary');
         folderButton.setAttribute('data-toggle', 'collapse');
-        folderButton.setAttribute('id', 'collapse');
-    let collapseUl = document.createElement("ul");
-        collapseUl.setAttribute('class', 'list-group');
-        wrapper.appendChild(folderButton);
-        wrapper.appendChild(collapseUl);
-        collapseUl.setAttribute('id', bookmark.id);
-        folderButton.setAttribute('data-target', "#" + bookmark.id);
-        folderButton.innerHTML = bookmark.title;
+        folderButton.setAttribute('data-target', `#${bookmark.id}`);
+        folderButton.insertAdjacentHTML('afterbegin','<span class="glyphicon glyphicon-folder-open"></span>')
+        folderButton.innerText = bookmark.title;
+        // folderButton.setAttribute('id', 'collapse');
+        // folderButton.setAttribute('aria-controls', `#${bookmark.id}`);
+        // folderButton.setAttribute('aria-expanded', 'false');
+    let collapseUl = document.createElement("div");
+    wrapper.appendChild(collapseUl);
+        collapseUl.setAttribute('id', `${bookmark.id}`);
+        collapseUl.setAttribute('class', 'list-group collapse');
 }
 
 const createList = ( allBookMarks )=> {
@@ -55,7 +64,7 @@ const createList = ( allBookMarks )=> {
 
 const createBookMarkLink = (singleBookMark)=> {
         let list = document.createElement("li");
-            list.setAttribute('class', 'list-group-item');
+            list.setAttribute('class', 'list-group-item align-items-start');
             list.setAttribute('id', singleBookMark.id);
         let url = document.createElement("a");
             url.setAttribute('href', singleBookMark.url);
@@ -64,4 +73,5 @@ const createBookMarkLink = (singleBookMark)=> {
             document.getElementById(singleBookMark.parentId).appendChild(list);
             createdBookMarks.push(singleBookMark.id)
 }
-start();
+
+start()
